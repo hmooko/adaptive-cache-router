@@ -48,21 +48,21 @@ The experimental environment is intentionally split into the **System Under Test
 
 | VM | Role | Initial Resource Budget |
 |---|---|---:|
-| VM1 | Spring Boot A + Caffeine | 1 CPU / 1.5 GB RAM |
-| VM2 | Spring Boot B + Caffeine | 1 CPU / 1.5 GB RAM |
-| VM3 | Redis | 1 CPU / 1 GB RAM |
-| VM4 | PostgreSQL Primary | 1.5 CPU / 3 GB RAM |
-| VM5 | PostgreSQL Read Replica | 1.5 CPU / 3 GB RAM |
-| VM6 | Apache Kafka | 1 CPU / 2 GB RAM |
+| VM1 | Spring Boot A + Caffeine | 1 CPU / 1536 MB RAM |
+| VM2 | Spring Boot B + Caffeine | 1 CPU / 1536 MB RAM |
+| VM3 | Redis | 1 CPU / 1024 MB RAM |
+| VM4 | PostgreSQL Primary | 1 CPU / 3072 MB RAM |
+| VM5 | PostgreSQL Read Replica | 1 CPU / 3072 MB RAM |
+| VM6 | Apache Kafka | 1 CPU / 2048 MB RAM |
 
 ### Experiment Tools
 
 | VM | Role | Initial Resource Budget |
 |---|---|---:|
-| VM7 | Prometheus + Grafana | 0.5 CPU / 2 GB RAM |
-| VM8 | k6 load generator | 0.5 CPU / 2 GB RAM |
+| VM7 | Prometheus + Grafana | 1 CPU / 2048 MB RAM |
+| VM8 | k6 load generator | 1 CPU / 2048 MB RAM |
 
-The resource budgets above are the initial target configuration. Before the final benchmark, actual CPU and memory usage will be measured and the limits may be adjusted while keeping all compared policies on the same fixed configuration.
+The cluster uses 8 vCPUs and 16 GB RAM in total. Each VM is assigned 1 vCPU. Before the final benchmark, CPU and memory utilization will be measured to verify that the load generator and monitoring stack are not bottlenecks. All compared routing policies will use the same fixed VM configuration.
 
 ## Why Monitoring and Load Generation Are Separate
 
