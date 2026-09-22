@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: adaptive-cache-postgres
+    environment:
+      POSTGRES_DB: adaptive_cache
+      POSTGRES_USER: adaptive
+      POSTGRES_PASSWORD: adaptive
+    ports:
+      - "5432:5432"
+    volumes:
+      - adaptive-cache-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U adaptive -d adaptive_cache"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  adaptive-cache-postgres-data:
