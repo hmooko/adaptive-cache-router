@@ -132,16 +132,17 @@ Kafka is used later in the project for asynchronous cache invalidation after dat
 
 ## Development Roadmap
 
-1. Build a basic Spring Boot + PostgreSQL API.
-2. Add Redis cache-aside.
-3. Add Caffeine local cache.
-4. Add PostgreSQL read replica and measure replication lag.
-5. Implement the adaptive read router.
-6. Add controlled load tests with k6.
-7. Add Kafka-based asynchronous cache invalidation.
-8. Inject latency, failures, and consumer lag.
-9. Compare baseline policies with the adaptive policy.
-10. Record reproducible experiment results.
+- [x] Build a basic Spring Boot + PostgreSQL API.
+- [x] Add the PostgreSQL-only k6 baseline workload.
+- [ ] Measure and record the Primary-only baseline.
+- [ ] Add Redis cache-aside.
+- [ ] Add Caffeine local cache.
+- [ ] Add PostgreSQL read replica and measure replication lag.
+- [ ] Implement the adaptive read router.
+- [ ] Add Kafka-based asynchronous cache invalidation.
+- [ ] Inject latency, failures, and consumer lag.
+- [ ] Compare baseline policies with the adaptive policy.
+- [ ] Record reproducible experiment results.
 
 ## Evaluation Metrics
 
@@ -168,4 +169,6 @@ docs/         Architecture and research notes
 
 ## Status
 
-Early research prototype.
+Phase 1 implemented: Spring Boot -> PostgreSQL Primary baseline.
+
+Next step: deploy VM1/VM4, verify metrics, and record the first k6 benchmark before adding Redis.
