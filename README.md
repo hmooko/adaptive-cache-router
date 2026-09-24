@@ -44,25 +44,25 @@ Can an adaptive read-routing policy reduce tail latency and stale reads compared
 
 The experimental environment is intentionally split into the **System Under Test** and separate **experiment tools**.
 
-### System Under Test
+### Experimental Cluster Resources
 
-| VM | Role | Initial Resource Budget |
-|---|---|---:|
-| VM1 | Spring Boot A + Caffeine | 1 CPU / 1536 MB RAM |
-| VM2 | Spring Boot B + Caffeine | 1 CPU / 1536 MB RAM |
-| VM3 | Redis | 1 CPU / 1024 MB RAM |
-| VM4 | PostgreSQL Primary | 1 CPU / 3072 MB RAM |
-| VM5 | PostgreSQL Read Replica | 1 CPU / 3072 MB RAM |
-| VM6 | Apache Kafka | 1 CPU / 2048 MB RAM |
+| VM | Role | CPU | RAM | Disk |
+|---|---|---:|---:|---:|
+| VM1 | Spring Boot A + Caffeine | 1 vCPU | 1536 MB | 12 GiB |
+| VM2 | Spring Boot B + Caffeine | 1 vCPU | 1536 MB | 12 GiB |
+| VM3 | Redis | 1 vCPU | 1024 MB | 10 GiB |
+| VM4 | PostgreSQL Primary | 1 vCPU | 3072 MB | 22 GiB |
+| VM5 | PostgreSQL Read Replica | 1 vCPU | 3072 MB | 22 GiB |
+| VM6 | Apache Kafka | 1 vCPU | 2048 MB | 16 GiB |
+| VM7 | Prometheus + Grafana | 1 vCPU | 2048 MB | 16 GiB |
+| VM8 | k6 load generator | 1 vCPU | 2048 MB | 10 GiB |
+| **Total** |  | **8 vCPU** | **16384 MB (16 GiB)** | **120 GiB** |
 
-### Experiment Tools
+VM1 through VM6 form the **System Under Test**. VM7 and VM8 are separate experiment tools used for observation and load generation.
 
-| VM | Role | Initial Resource Budget |
-|---|---|---:|
-| VM7 | Prometheus + Grafana | 1 CPU / 2048 MB RAM |
-| VM8 | k6 load generator | 1 CPU / 2048 MB RAM |
+The final benchmark should keep this allocation fixed across all compared routing policies. CPU, memory, disk type, and VM placement should be recorded with every experiment so performance differences can be attributed to the routing policy rather than to infrastructure changes.
 
-The cluster uses 8 vCPUs and 16 GB RAM in total. Each VM is assigned 1 vCPU. Before the final benchmark, CPU and memory utilization will be measured to verify that the load generator and monitoring stack are not bottlenecks. All compared routing policies will use the same fixed VM configuration.
+> **Storage constraint:** this 8-VM layout assumes the cloud provider allows disks smaller than 20 GiB. If the minimum disk size is 20 GiB per VM, 8 VMs would require 160 GiB and therefore exceed the 120 GiB storage quota. In that case, consolidate the topology into fewer VMs before running the final benchmark.
 
 ## Why Monitoring and Load Generation Are Separate
 
